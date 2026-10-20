@@ -1,12 +1,10 @@
-CREATE DATABASE duoling_csdl_remake
+﻿CREATE DATABASE duoling_csdl_remake
 CHARACTER SET utf8mb4
 COLLATE utf8mb4_unicode_ci;
 
 USE duoling_csdl_remake;
 
--- =====================================================================
 -- 1. BẢNG NGƯỜI DÙNG
--- =====================================================================
 CREATE TABLE nguoidung (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT 'Mã người dùng',
     hoten VARCHAR(100) NOT NULL COMMENT 'Họ và tên',
@@ -24,9 +22,7 @@ CREATE TABLE nguoidung (
         ON UPDATE CURRENT_TIMESTAMP COMMENT 'Ngày cập nhật'
 );
 
--- =====================================================================
 -- 2. BẢNG DANH MỤC
--- =====================================================================
 CREATE TABLE danhmuc (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT 'Mã danh mục',
     ten VARCHAR(100) NOT NULL COMMENT 'Tên chủ đề',
@@ -36,9 +32,7 @@ CREATE TABLE danhmuc (
         ON UPDATE CURRENT_TIMESTAMP COMMENT 'Ngày cập nhật'
 );
 
--- =====================================================================
 -- 3. BẢNG LOẠI CÂU HỎI
--- =====================================================================
 CREATE TABLE loaicauhoi (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT 'Mã loại câu hỏi',
     ma VARCHAR(50) NOT NULL UNIQUE COMMENT 'Mã loại (vd: read_aloud)',
@@ -50,9 +44,7 @@ CREATE TABLE loaicauhoi (
     is_active TINYINT(1) NOT NULL DEFAULT 1 COMMENT '1=bật, 0=tắt'
 );
 
--- =====================================================================
 -- 4. BẢNG CÂU HỎI
--- =====================================================================
 CREATE TABLE cauhoi (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT 'Mã câu hỏi',
     loai_id BIGINT UNSIGNED NOT NULL COMMENT 'Mã loại câu hỏi',
@@ -80,9 +72,7 @@ CREATE TABLE cauhoi (
     CHECK (dokho BETWEEN 1 AND 10)
 );
 
--- =====================================================================
 -- 5. BẢNG LỰA CHỌN (A/B/C/D) - câu trắc nghiệm
--- =====================================================================
 CREATE TABLE luachon (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT 'Mã lựa chọn',
     cauhoi_id BIGINT UNSIGNED NOT NULL COMMENT 'Mã câu hỏi',
@@ -95,9 +85,7 @@ CREATE TABLE luachon (
     FOREIGN KEY (cauhoi_id) REFERENCES cauhoi(id) ON DELETE CASCADE
 );
 
--- =====================================================================
 -- 6. BẢNG ĐÁP ÁN - các dạng không phải trắc nghiệm
--- =====================================================================
 CREATE TABLE dap_an (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT 'Mã đáp án',
     cauhoi_id BIGINT UNSIGNED NOT NULL COMMENT 'Mã câu hỏi',
@@ -110,9 +98,7 @@ CREATE TABLE dap_an (
     FOREIGN KEY (cauhoi_id) REFERENCES cauhoi(id) ON DELETE CASCADE
 );
 
--- =====================================================================
 -- 7. BẢNG CÂU HỎI CON - INTERACTIVE READING
--- =====================================================================
 CREATE TABLE cauhoi_doc (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT 'Mã câu hỏi con (đọc)',
     cauhoi_id BIGINT UNSIGNED NOT NULL COMMENT 'Mã câu hỏi cha',
@@ -127,9 +113,7 @@ CREATE TABLE cauhoi_doc (
     FOREIGN KEY (cauhoi_id) REFERENCES cauhoi(id) ON DELETE CASCADE
 );
 
--- =====================================================================
 -- 8. BẢNG CÂU HỎI CON - INTERACTIVE LISTENING
--- =====================================================================
 CREATE TABLE cauhoi_nghe (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT 'Mã câu hỏi con (nghe)',
     cauhoi_id BIGINT UNSIGNED NOT NULL COMMENT 'Mã câu hỏi cha',
@@ -144,9 +128,7 @@ CREATE TABLE cauhoi_nghe (
     FOREIGN KEY (cauhoi_id) REFERENCES cauhoi(id) ON DELETE CASCADE
 );
 
--- =====================================================================
 -- 9. BẢNG LỰA CHỌN CÂU HỎI CON (ĐỌC)
--- =====================================================================
 CREATE TABLE luachon_doc (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT 'Mã lựa chọn câu con (đọc)',
     cauhoi_doc_id BIGINT UNSIGNED NOT NULL COMMENT 'Mã câu hỏi con (cauhoi_doc)',
@@ -159,9 +141,7 @@ CREATE TABLE luachon_doc (
     FOREIGN KEY (cauhoi_doc_id) REFERENCES cauhoi_doc(id) ON DELETE CASCADE
 );
 
--- =====================================================================
 -- 10. BẢNG LỰA CHỌN CÂU HỎI CON (NGHE)
--- =====================================================================
 CREATE TABLE luachon_nghe (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT 'Mã lựa chọn câu con (nghe)',
     cauhoi_nghe_id BIGINT UNSIGNED NOT NULL COMMENT 'Mã câu hỏi con (cauhoi_nghe)',
@@ -174,9 +154,7 @@ CREATE TABLE luachon_nghe (
     FOREIGN KEY (cauhoi_nghe_id) REFERENCES cauhoi_nghe(id) ON DELETE CASCADE
 );
 
--- =====================================================================
 -- 10. BẢNG LUYỆN TẬP
--- =====================================================================
 CREATE TABLE luyentap (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT 'Mã lần luyện tập',
     nguoidung_id BIGINT UNSIGNED NOT NULL COMMENT 'Người luyện tập',
@@ -201,9 +179,7 @@ CREATE TABLE luyentap (
     FOREIGN KEY (luachon_id) REFERENCES luachon(id) ON DELETE SET NULL
 );
 
--- =====================================================================
 -- 11. BẢNG ĐÁNH DẤU CÂU HỎI
--- =====================================================================
 CREATE TABLE danhdau (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT 'Mã đánh dấu',
     nguoidung_id BIGINT UNSIGNED NOT NULL COMMENT 'Người đánh dấu',
@@ -216,9 +192,7 @@ CREATE TABLE danhdau (
     FOREIGN KEY (cauhoi_id) REFERENCES cauhoi(id) ON DELETE CASCADE
 );
 
--- =====================================================================
 -- 12. BẢNG ĐỀ THI
--- =====================================================================
 CREATE TABLE dethi (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT 'Mã đề thi',
     ten VARCHAR(150) NOT NULL COMMENT 'Tên đề thi',
@@ -237,9 +211,7 @@ CREATE TABLE dethi (
     FOREIGN KEY (nguoitao) REFERENCES nguoidung(id) ON DELETE SET NULL
 );
 
--- =====================================================================
 -- 13. BẢNG CÂU HỎI THUỘC ĐỀ
--- =====================================================================
 CREATE TABLE dethicauhoi (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT 'Mã chi tiết đề',
     dethi_id BIGINT UNSIGNED NOT NULL COMMENT 'Mã đề thi',
@@ -254,9 +226,7 @@ CREATE TABLE dethicauhoi (
     FOREIGN KEY (cauhoi_id) REFERENCES cauhoi(id) ON DELETE CASCADE
 );
 
--- =====================================================================
 -- 14. BẢNG LẦN THI
--- =====================================================================
 CREATE TABLE lanthi (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT 'Mã lần thi',
     nguoidung_id BIGINT UNSIGNED NOT NULL COMMENT 'Người làm bài',
@@ -280,9 +250,7 @@ CREATE TABLE lanthi (
     FOREIGN KEY (dethi_id) REFERENCES dethi(id)
 );
 
--- =====================================================================
 -- 15. BẢNG CÂU HỎI CỦA LẦN THI
--- =====================================================================
 CREATE TABLE lanthicauhoi (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT 'Mã câu hỏi lần thi',
     lanthi_id BIGINT UNSIGNED NOT NULL COMMENT 'Mã lần thi',
@@ -302,9 +270,7 @@ CREATE TABLE lanthicauhoi (
     FOREIGN KEY (cauhoi_id) REFERENCES cauhoi(id)
 );
 
--- =====================================================================
 -- 16. BẢNG CÂU TRẢ LỜI
--- =====================================================================
 CREATE TABLE traloi (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT 'Mã câu trả lời',
     lanthicauhoi_id BIGINT UNSIGNED NOT NULL UNIQUE COMMENT 'Câu hỏi thuộc lần thi',
@@ -324,9 +290,7 @@ CREATE TABLE traloi (
     FOREIGN KEY (luachon_id) REFERENCES luachon(id) ON DELETE SET NULL
 );
 
--- =====================================================================
 -- 17. BẢNG CHẤM ĐIỂM (có cột loai phân biệt Speaking/Writing)
--- =====================================================================
 CREATE TABLE chamdiem (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT 'Mã chấm điểm',
     traloi_id BIGINT UNSIGNED NOT NULL COMMENT 'Mã câu trả lời',
@@ -348,9 +312,7 @@ CREATE TABLE chamdiem (
     FOREIGN KEY (nguoicham) REFERENCES nguoidung(id)
 );
 
--- =====================================================================
 -- 18. BẢNG VI PHẠM
--- =====================================================================
 CREATE TABLE vipham (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT 'Mã vi phạm',
     lanthi_id BIGINT UNSIGNED NOT NULL COMMENT 'Mã lần thi',
@@ -364,9 +326,7 @@ CREATE TABLE vipham (
     FOREIGN KEY (lanthi_id) REFERENCES lanthi(id) ON DELETE CASCADE
 );
 
--- =====================================================================
 -- 19. BẢNG CHỨNG CHỈ
--- =====================================================================
 CREATE TABLE chungchi (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT 'Mã chứng chỉ',
     nguoidung_id BIGINT UNSIGNED NOT NULL COMMENT 'Người nhận',
@@ -387,9 +347,7 @@ CREATE TABLE chungchi (
     FOREIGN KEY (lanthi_id) REFERENCES lanthi(id) ON DELETE CASCADE
 );
 
--- =====================================================================
 -- 20. BẢNG NHẬT KÝ AI
--- =====================================================================
 CREATE TABLE ailog (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT 'Mã nhật ký AI',
     nguoidung_id BIGINT UNSIGNED NOT NULL COMMENT 'Người sử dụng AI',
@@ -407,9 +365,7 @@ CREATE TABLE ailog (
     FOREIGN KEY (nguoidung_id) REFERENCES nguoidung(id) ON DELETE CASCADE
 );
 
--- =====================================================================
 -- 21. BẢNG LƯỢT SỬ DỤNG AI
--- =====================================================================
 CREATE TABLE aisudung (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT 'Mã sử dụng AI',
     nguoidung_id BIGINT UNSIGNED NOT NULL COMMENT 'Người dùng',
@@ -421,9 +377,7 @@ CREATE TABLE aisudung (
     FOREIGN KEY (nguoidung_id) REFERENCES nguoidung(id) ON DELETE CASCADE
 );
 
--- =====================================================================
 -- 22. BẢNG TIẾN ĐỘ HỌC TẬP
--- =====================================================================
 CREATE TABLE tiendo (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT 'Mã tiến độ',
     nguoidung_id BIGINT UNSIGNED NOT NULL COMMENT 'Người dùng',
@@ -440,9 +394,7 @@ CREATE TABLE tiendo (
     FOREIGN KEY (loai_id) REFERENCES loaicauhoi(id) ON DELETE CASCADE
 );
 
--- =====================================================================
 -- 23. BẢNG CHUỖI NGÀY HỌC
--- =====================================================================
 CREATE TABLE chuoingay (
     nguoidung_id BIGINT UNSIGNED PRIMARY KEY COMMENT 'Người dùng',
     hientai INT UNSIGNED NOT NULL DEFAULT 0 COMMENT 'Chuỗi ngày hiện tại',
@@ -452,22 +404,8 @@ CREATE TABLE chuoingay (
     FOREIGN KEY (nguoidung_id) REFERENCES nguoidung(id) ON DELETE CASCADE
 );
 
--- =====================================================================
--- GHI CHÚ THIẾT KẾ
--- =====================================================================
 -- 1. Câu hỏi con được tách thành 2 bảng riêng:
---    - `cauhoi_doc` (Interactive Reading): 5 loại câu hỏi con
---    - `cauhoi_nghe` (Interactive Listening): 3 loại câu hỏi con
---
 -- 2. Lựa chọn câu hỏi con cũng được tách thành 2 bảng:
---    - `luachon_doc` → trỏ `cauhoi_doc(id)`
---    - `luachon_nghe` → trỏ `cauhoi_nghe(id)`
---
 -- 3. Bảng `chamdiem` có cột `loai` phân biệt Speaking/Writing:
---    - Writing: dùng nguphap, tuvung, lienquan, machlac
---    - Speaking: dùng nguphap, tuvung, luloat, phatam, machlac
---    → Các cột không dùng sẽ để NULL.
--- =====================================================================
 
--- Xem tất cả bảng
 SHOW TABLES;
