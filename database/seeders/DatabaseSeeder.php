@@ -8,7 +8,10 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // Seeder nghiep vu duoc dang ky khi tung module hoan thanh.
-        // Vi du: $this->call([NguoidungSeeder::class]);
+        // Dữ liệu mẫu cho MT01/MT02 của TV2.
+        // Seeder tự bỏ qua nếu các bảng câu hỏi/đề thi chưa tồn tại.
+        $this->call([
+            MockTestDataSeeder::class,
+        ]);
     }
 }
