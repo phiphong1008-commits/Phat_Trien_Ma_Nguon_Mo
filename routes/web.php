@@ -12,7 +12,7 @@ use App\Http\Controllers\PracticeController;
 use App\Http\Controllers\MockTest\MockTestController;
 
 // Trang chu
-Route::view('/', 'welcome');
+Route::view('/', 'layouts.welcome');
 
 // AUTH - Dang nhap
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');

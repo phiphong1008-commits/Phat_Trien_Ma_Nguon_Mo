@@ -1,7 +1,18 @@
-@extends('admin.layout')
+@extends('layouts.app')
+
+@section('title', 'Tổng quan hệ thống')
+
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+@endpush
 
 @section('title', 'Tổng quan')
 @section('heading', 'Tổng quan hệ thống')
+
+<section class="glass admin-intro">
+    <h1>Tổng quan hệ thống</h1>
+    <p>Quản lý và theo dõi hoạt động DET Practice.</p>
+</section>
 
 @section('content')
     <section class="admin-grid">

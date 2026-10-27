@@ -421,3 +421,103 @@ a.feature-card:hover {
         transition: none;
     }
 }
+
+/* Bo sung dieu huong tai khoan - homepage giao dien cao */
+.nav-account {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+.nav-account form { margin: 0; }
+.nav-account a, .nav-logout {
+    font: inherit;
+    color: var(--fox-dark);
+    font-weight: 700;
+}
+.nav-logout {
+    background: transparent;
+    border: 0;
+    padding: 5px;
+    cursor: pointer;
+}
+.nav-account a:hover, .nav-logout:hover { text-decoration: underline; }
+
+/* Auth - Fox theme */
+
+.fox-site .auth-card {
+    background: rgba(255, 255, 255, .78);
+    border: 1px solid rgba(255, 255, 255, .9);
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(18px);
+}
+
+.fox-site .auth-card h1,
+.fox-site .page-heading h1 {
+    color: var(--brown);
+}
+
+.fox-site input[type="text"]:focus,
+.fox-site input[type="email"]:focus,
+.fox-site input[type="password"]:focus {
+    border-color: var(--fox);
+    outline: 3px solid rgba(220, 115, 54, .15);
+}
+
+.fox-site .btn-primary {
+    background: var(--fox);
+    border-color: var(--fox);
+    color: #fff;
+}
+
+.fox-site .btn-primary:hover {
+    background: var(--fox-dark);
+}
+
+.fox-site .auth-links a,
+.fox-site .checkbox-row a,
+.fox-site .btn-secondary {
+    color: var(--fox-dark);
+}
+
+.fox-site .btn-google {
+    background: rgba(255, 255, 255, .7);
+    border-color: rgba(220, 115, 54, .2);
+}
+
+/* Navbar - Tai khoan */
+
+.fox-site .nav-account {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.fox-site .nav-account form {
+    margin: 0;
+}
+
+.fox-logout {
+    padding: 9px 14px;
+    border: none;
+    border-radius: 12px;
+    background: rgba(220, 115, 54, .14);
+    color: var(--fox-dark);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.fox-logout:hover {
+    background: rgba(220, 115, 54, .24);
+}
+
+@media (max-width: 700px) {
+    .fox-site .nav-account {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+    }
+}
