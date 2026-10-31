@@ -94,4 +94,3 @@ class GoogleAuthTest extends TestCase
         $response->assertSessionHasErrors('email');
     }
 }
-

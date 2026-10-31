@@ -23,7 +23,7 @@ class GoogleController extends Controller
     {
         try {
             $googleUser = Socialite::driver('google')->user();
-            
+
             // Kiểm tra xem người dùng đã tồn tại bằng google_id hoặc email chưa
             $user = Nguoidung::where('google_id', $googleUser->getId())
                              ->orWhere('email', $googleUser->getEmail())

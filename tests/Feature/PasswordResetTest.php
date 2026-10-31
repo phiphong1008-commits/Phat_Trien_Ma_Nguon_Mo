@@ -96,4 +96,3 @@ class PasswordResetTest extends TestCase
         $this->assertTrue(Hash::check('oldpassword', $user->matkhau));
     }
 }
-
