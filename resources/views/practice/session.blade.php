@@ -154,6 +154,128 @@
             background: #dc2626 !important;
             animation: pulseRed 1.4s infinite !important;
         }
+
+        /* MODAL XÁC NHẬN THOÁT (BENTO DARK THEME, HOÀN TOÀN NO-JS VỚI CSS :TARGET) */
+        .session-exit-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 999999;
+        }
+        .session-exit-backdrop:target {
+            display: flex;
+        }
+        .session-exit-backdrop-close {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            cursor: default;
+        }
+        .session-exit-dialog {
+            position: relative;
+            background: #18191f;
+            border: 1.5px solid #2f313a;
+            border-radius: 18px;
+            padding: 32px 28px 28px;
+            max-width: 440px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.85);
+            z-index: 2;
+            animation: modalScaleIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes modalScaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.92) translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        .session-exit-icon-wrap {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: rgba(245, 158, 11, 0.12);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+        }
+        .session-exit-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 0 0 10px 0;
+        }
+        .session-exit-desc {
+            font-size: 14px;
+            color: #94a3b8;
+            line-height: 1.6;
+            margin: 0 0 24px 0;
+        }
+        .session-exit-footer {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .session-btn-cancel {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 22px;
+            font-weight: 700;
+            font-size: 14px;
+            border-radius: 10px;
+            color: #cbd5e1 !important;
+            border: 1.5px solid #475569 !important;
+            background: transparent !important;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .session-btn-cancel:hover {
+            background: #27272a !important;
+            color: #ffffff !important;
+            border-color: #64748b !important;
+        }
+        .session-btn-confirm {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 22px;
+            font-weight: 700;
+            font-size: 14px;
+            border-radius: 10px;
+            color: #ffffff !important;
+            background: #dc2626 !important;
+            border: 1.5px solid #dc2626 !important;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .session-btn-confirm:hover {
+            background: #b91c1c !important;
+            border-color: #b91c1c !important;
+        }
     </style>
 @endpush
 
@@ -163,8 +285,8 @@
     {{-- THANH ĐIỀU HƯỚNG TRÊN CÙNG (KHÔNG CÓ BỘ ĐẾM NGƯỢC THỜI GIAN) --}}
     <div class="session-topbar">
         <div style="display: flex; align-items: center; gap: 14px;">
-            <a href="{{ route('practice.select', ['loai_id' => $type->id]) }}" 
-               onclick="return confirmExit()" 
+            <a href="#confirm-exit-modal" 
+               class="session-exit-link" 
                style="color: var(--bento-muted); text-decoration: none; font-size: 14px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
                 ← Thoát luyện tập
             </a>
@@ -590,8 +712,8 @@
                 </div>
 
                 <!-- NÚT NỘP BÀI LÀM LUÔN KHẢ DỤNG -->
-                <button type="button" 
-                        onclick="submitPracticeNow()" 
+                <button type="submit" 
+                        form="practice-session-form" 
                         class="btn btn-primary" 
                         style="width: 100%; justify-content: center; font-weight: 800; padding: 12px; background: var(--bento-orange); border-color: var(--bento-orange); box-shadow: 0 4px 12px rgba(0, 184, 107, 0.2);">
                     Nộp bài làm & Xem tổng kết 
@@ -604,6 +726,28 @@
             </div>
         </aside>
 
+    </div>
+
+    <!-- MODAL XÁC NHẬN THOÁT LUYỆN TẬP (BENTO DARK THEME, HOÀN TOÀN NO-JS VỚI CSS :TARGET) -->
+    <div id="confirm-exit-modal" class="session-exit-backdrop">
+        <a href="#" class="session-exit-backdrop-close" aria-label="Đóng thông báo"></a>
+        <div class="session-exit-dialog">
+            <div class="session-exit-icon-wrap">
+                <span style="font-size: 30px;">⚠️</span>
+            </div>
+            <h3 class="session-exit-title">Rời khỏi bài luyện tập?</h3>
+            <p class="session-exit-desc">
+                Bạn có chắc muốn rời khỏi bài luyện tập này? Tiến độ làm bài hiện tại sẽ không được lưu vào lịch sử nếu chưa nộp bài.
+            </p>
+            <div class="session-exit-footer">
+                <a href="#" class="session-btn-cancel">
+                    Ở lại làm tiếp
+                </a>
+                <a href="{{ route('practice.index') }}" class="session-btn-confirm">
+                    Xác nhận thoát
+                </a>
+            </div>
+        </div>
     </div>
 </div>
 @endsection
@@ -1080,19 +1224,10 @@
 
     // Nộp bài
     function submitPracticeNow() {
-        const answeredCount = Array.from(answeredQuestions).filter(k => typeof k === 'number').length;
-        let confirmMsg = "Bạn đã hoàn thành " + answeredCount + "/" + totalQuestions + " câu hỏi. Bạn có chắc chắn muốn nộp bài để xem tổng kết điểm không?";
-        if (answeredCount === 0) {
-            confirmMsg = "Bạn chưa trả lời câu hỏi nào. Bạn có chắc chắn muốn nộp bài để kết thúc không?";
+        const form = document.getElementById('practice-session-form');
+        if (form) {
+            form.submit();
         }
-
-        if (confirm(confirmMsg)) {
-            document.getElementById('practice-session-form').submit();
-        }
-    }
-
-    function confirmExit() {
-        return confirm("Bạn có chắc muốn rời khỏi bài luyện tập này? Tiến độ làm bài hiện tại sẽ không được lưu vào lịch sử nếu chưa nộp bài.");
     }
 
     async function toggleSessionBookmark(qid, qIndex) {
