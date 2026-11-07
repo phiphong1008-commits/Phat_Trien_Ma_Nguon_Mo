@@ -16,8 +16,8 @@
 | Công nghệ chính | PHP 8.2, Laravel 12, MySQL/MariaDB, Blade, HTML5, CSS |
 | Kho mã nguồn | `Phat_Trien_Ma_Nguon_Mo` |
 | Môi trường triển khai thử nghiệm | XAMPP (Apache + MySQL/MariaDB) trên Windows |
-| Quy mô mã nguồn | 66 file PHP trong `app/` (~9.600 dòng), 34 migration, 10 seeder, 56 view, 35 file test (~4.770 dòng) |
-| Phiên bản báo cáo | 2.0 — 06/11/2026 (cập nhật giao diện tạo đề, kết quả Speaking và số liệu kiểm thử) |
+| Quy mô mã nguồn | 66 file PHP trong `app/` (~9.800 dòng), 36 migration, 10 seeder, 56 view, 35 file test (213 tests, 953 assertions) |
+| Phiên bản báo cáo | 3.0 — 07/11/2026 (hoàn thiện kiến trúc No-JS, loại bỏ Writing Sample, chuẩn hóa media âm thanh và hình ảnh, 213 test tự động) |
 
 ---
 
@@ -407,28 +407,27 @@ Hệ thống được chia thành 7 phân hệ chính. Ký hiệu **BB** = bắt
 
 ### 3.4. Use case tổng quát
 
-**Học viên:**
+Nhằm tối ưu hóa khả năng theo dõi và đối chiếu luồng nghiệp vụ trên hệ thống, toàn bộ các ca sử dụng (Use Case) chính của DET Practice được chuẩn hóa thành dạng bảng phân tích chi tiết theo từng tác nhân tương tác thay vì sơ đồ đồ họa, giúp việc tra cứu rõ ràng và trực quan hơn.
 
-1. Đăng ký → xác minh email → đăng nhập.
-2. Chọn kỹ năng → chọn dạng bài/độ khó → làm bài → nhận kết quả.
-3. Thi thử → làm từng câu → hết giờ/nộp bài → xem báo cáo → nhận chứng chỉ thử.
-4. Dùng AI Tutor (sửa ngữ pháp, dịch, viết lại) → xem lịch sử.
-5. Xem dashboard tiến độ, chuỗi ngày học, điểm thi.
-
-**Quản trị viên:**
-
-1. Đăng nhập bằng tài khoản admin.
-2. Xem thống kê tổng quan.
-3. Duyệt câu hỏi theo trạng thái: bản nháp → chờ duyệt → xuất bản → lưu trữ.
-4. Quản lý dạng bài, chủ đề.
-5. Xem danh sách và chi tiết đề thi.
-6. Quản lý người dùng, phân quyền.
-7. Nhập câu hỏi/đề thi từ file JSON.
-8. Xem nhật ký AI để kiểm tra lỗi và chi phí.
+| Mã UC | Tên Use Case | Tác nhân chính | Mô tả tóm tắt luồng nghiệp vụ | Tiền điều kiện | Kết quả / Hậu điều kiện |
+| --- | --- | --- | --- | --- | --- |
+| UC01 | Đăng ký & xác minh email | Khách vãng lai | Điền form đăng ký, nhận link xác thực qua email và kích hoạt tài khoản | Chưa có tài khoản | Bản ghi `nguoidung` được tạo (`email_verified_at` hợp lệ) |
+| UC02 | Đăng nhập hệ thống | Khách / Học viên | Xác thực bằng Email/Mật khẩu hoặc Google OAuth 2.0 | Tài khoản đã kích hoạt, không bị khóa | Thiết lập phiên đăng nhập (Session cookie an toàn) |
+| UC03 | Luyện tập câu hỏi DET | Học viên | Chọn 1 trong 11 dạng bài DET, chọn độ khó, làm bài tự do, nộp form POST | Đã đăng nhập | Lưu lịch sử vào `luyentap`, hiển thị kết quả & giải thích tức thì |
+| UC04 | Đánh dấu câu hỏi cần ôn tập | Học viên | Nhấn nút Bookmark (No-JS POST) để lưu câu hỏi khó vào danh sách riêng | Đang xem/làm câu hỏi | Ghi vào bảng `danhdau`, đồng bộ trạng thái hiển thị |
+| UC05 | Chấm điểm Writing/Speaking bằng AI | Học viên, AI Service | Gửi bài làm viết/nói đến AIService (Gemini/OpenAI/Mock) để phân tích lỗi, cho điểm | Đã hoàn thành câu tự luận | Bản ghi `ailog` được tạo, trả về nhận xét chi tiết và điểm số |
+| UC06 | Sử dụng AI Tutor (Sửa ngữ pháp & Dịch) | Học viên, AI Service | Nhập đoạn văn cần sửa lỗi ngữ pháp, cải thiện diễn đạt hoặc dịch thuật 2 chiều | Đã đăng nhập, còn quota | Nhận giải thích ngữ pháp, từ vựng và câu viết lại từ AI |
+| UC07 | Làm bài thi thử DET (Adaptive Mock Test) | Học viên | Tham gia làm đề thi thử 8 đề mô phỏng chuẩn DET với thời gian đếm ngược và chọn câu thích ứng | Đã đăng nhập | Ghi nhận lượt thi `lanthi`, `traloi`, tính điểm 4 kỹ năng |
+| UC08 | Cấp & tra cứu chứng chỉ thi thử | Học viên | Xem báo cáo phân tích điểm subscore (10-160), nhận mã chứng chỉ và link xác thực | Hoàn thành đề thi thử | Bản ghi `chungchi` với mã định danh duy nhất |
+| UC09 | Xem Dashboard & Thống kê tiến độ | Học viên | Theo dõi tiến độ theo kỹ năng, chuỗi ngày học liên tục (streak) và biểu đồ SVG | Đã đăng nhập | Hiển thị trực quan dữ liệu từ `tiendo`, `chuoingay`, `luyentap` |
+| UC10 | Quản lý ngân hàng câu hỏi & Import JSON | Quản trị viên | Thêm, sửa, duyệt trạng thái (draft/pending/published) câu hỏi, nhập hàng loạt từ JSON | Đăng nhập với quyền `admin` | Cập nhật bảng `cauhoi`, `luachon`, `import_batches` |
+| UC11 | Quản lý cấu hình đề thi | Quản trị viên | Tạo đề thi, chọn câu từ ngân hàng, thay đổi thứ tự và xem phân bố điểm (quy trình 2 bước) | Đăng nhập quyền `admin` | Cập nhật bảng `dethi`, `dethicauhoi` |
+| UC12 | Quản lý người dùng & phân quyền an toàn | Quản trị viên | Tìm kiếm, khóa/mở tài khoản, phân quyền (với cơ chế bảo vệ admin cuối cùng) | Đăng nhập quyền `admin` | Cập nhật bảng `nguoidung`, ghi log phân quyền |
+| UC13 | Giám sát chi phí & Nhật ký AI (AI Audit Log) | Quản trị viên | Lọc xem chi tiết prompt, token in/out, độ trễ và chi phí gọi Gemini/OpenAI | Đăng nhập quyền `admin` | Truy vấn và phân tích từ bảng `ailog`, `aisudung` |
 
 ### 3.5. Kiến trúc hệ thống
 
-Hệ thống theo kiến trúc **Laravel MVC mở rộng với Service layer và Job queue**:
+Hệ thống được thiết kế theo kiến trúc **Laravel MVC mở rộng kết hợp Service Layer và Job Queue**, triệt để tuân thủ nguyên tắc **No-JS** (không sử dụng JavaScript phía client). Mọi tương tác giao diện và nộp bài đều dùng cơ chế Form chuẩn, Post-Redirect-Get và thẻ HTML5 gốc. Mô hình phân tầng được mô tả chi tiết qua cấu trúc phân luồng bên dưới:
 
 ```
 Trình duyệt (HTML/CSS, form POST/GET)
@@ -766,17 +765,17 @@ GOOGLE_CLIENT_SECRET=
 
 ### 4.3. Phân hệ Luyện tập
 
-**Danh sách dạng bài:** `PracticeController@index` lấy các `loaicauhoi` đang bật, nhóm theo 4 kỹ năng, hiển thị số câu và tiến độ.
+**Danh sách dạng bài:** `PracticeController@index` lấy các `loaicauhoi` đang bật, nhóm theo 4 kỹ năng, hiển thị số câu và tiến độ. Hệ thống hỗ trợ 11 dạng bài chuẩn DET, chính thức loại bỏ dạng bài `writing_sample` để tập trung tối đa vào Write About the Photo và Read Then Write.
 
 **Chọn câu:** `select()` lọc theo dạng bài, chủ đề, độ khó; chỉ lấy câu `published`; ưu tiên câu chưa làm.
 
-**Làm bài:** mỗi câu một trang; với câu có ảnh/audio, hiển thị `<img>` hoặc `<audio controls>`. Đáp án đúng không được đưa vào HTML.
+**Làm bài và tài nguyên đa phương tiện:** Mỗi câu một trang; tuyệt đối không dùng JavaScript phía client. Với câu hỏi hình ảnh (*Write About the Photo*, *Speak About the Photo*), hệ thống render trực tiếp đồ họa vector SVG (`photo-classroom-teacher.svg`, `photo-family-hotel.svg`) kèm cơ chế fallback tự động trong Controller. Với câu hỏi âm thanh (*Listen and Type*, *Listen and Select*), hệ thống phát tệp âm thanh wav thực tế (`listening-1.wav`) thông qua thẻ HTML5 `<audio controls>`. Đáp án đúng không được đưa vào HTML để bảo đảm tính khách quan.
 
 **Chấm tự động:** `ScoringService` so sánh đáp án đã chọn với `luachon.ladung = true` hoặc `dap_an`. Kết quả lưu vào `luyentap`; `tiendo` và `chuoingay` được cập nhật.
 
 **Câu hỏi tương tác:** Interactive Reading hiển thị đoạn văn và các câu con; Interactive Listening hiển thị audio và câu con. Mỗi câu con có thể có lựa chọn hoặc đáp án điền từ.
 
-**Đánh dấu:** `BookmarkController` bật/tắt `danhdau` và `danhdau_loai`; trang câu đã lưu hỗ trợ luyện lại.
+**Đánh dấu câu hỏi (Bookmarks):** `BookmarkController` quản lý lưu và bỏ lưu câu hỏi yếu thuần túy bằng Form POST (100% No-JS). Controller tích hợp cơ chế tự động kiểm tra và tạo dữ liệu dự phòng cho các bảng cha `loaicauhoi` và `cauhoi` trước khi chèn vào `danhdau`, loại bỏ hoàn toàn nguy cơ phát sinh ngoại lệ khóa ngoại `FOREIGN KEY constraint failed`. Trang câu hỏi đã lưu cho phép lọc theo dạng bài, độ khó và làm lại ngay lập tức.
 
 **Tổng kết phiên luyện:** `submitSession()` duyệt danh sách câu, chấm từng câu, cộng điểm, đếm số đúng/sai/chưa làm, lưu từng lượt vào `luyentap` và đưa `resultSummary` vào session. Trang `/practice/session/result` đọc lại session này để hiển thị 4 thẻ thống kê (điểm, tỷ lệ chính xác, số câu đúng/sai, thời gian) và chi tiết từng câu.
 
@@ -1032,22 +1031,22 @@ Dự án sử dụng **feature test** của Laravel/PHPUnit, tập trung vào h�
 
 ### 5.3. Kết quả kiểm thử
 
-Tại thời điểm hoàn thiện báo cáo (06/11/2026), toàn bộ test suite chạy thành công:
+Tại thời điểm hoàn thiện báo cáo (07/11/2026), toàn bộ test suite chạy thành công 100%:
 
 ```
-Tests:    1 skipped, 202 passed (881 assertions)
-Duration: ~13s (có thể dao động 13–30 giây tùy máy)
+Tests:    1 skipped, 213 passed (953 assertions)
+Duration: ~18s (dao động 15–30 giây tùy cấu hình phần cứng)
 ```
 
-So với bản báo cáo trước (177 passed, 751 assertions), đợt `fix` bổ sung 25 test và 130 assertion, chủ yếu ở `AdminExamTest` và `PracticeTest`.
+So với bản báo cáo trước (202 passed, 881 assertions), đợt cập nhật mới nhất đã bổ sung thêm 11 test và 72 assertion mới nhằm bảo đảm tính đúng đắn cho các chức năng No-JS Bookmark, tự động bổ sung ảnh minh họa câu hỏi, đồng bộ tệp âm thanh và loại bỏ dạng bài Writing Sample.
 
 Một số test tiêu biểu:
 
+- `PracticeTest`: bao gồm 27 test kiểm tra toàn diện luồng luyện tập No-JS, chức năng đánh dấu câu hỏi `test_authenticated_user_can_bookmark_question_via_form_post`, kiểm tra loại bỏ Writing Sample `test_writing_sample_is_removed_from_practice_types`, kiểm tra ảnh minh họa câu hỏi tồn tại và hợp lệ `test_photo_questions_have_valid_images_and_files_exist`, cùng kiểm tra render ảnh lớp học trên URL `practice/session?loai_id=2&dokho=4`.
 - `AdminExamTest`: admin xem danh sách/chi tiết đề; tạo đề bằng giao diện; bắt buộc chọn kỹ năng với đề `section`; thêm câu và tính tổng điểm; bỏ câu và đánh số lại; đổi thứ tự câu; cập nhật metadata; học viên bị chặn ở cả route xem, tạo và lưu.
 - `AdminUserTest`: admin cuối cùng không tự hạ quyền; admin tự hạ quyền được khi còn admin khác; admin khác bị khóa thì không được tính.
 - `AITutorTest`: lịch sử hiển thị JSON theo nhãn thân thiện, không lộ khóa JSON thô.
 - `QuestionImportTest`: preview/import JSON, giữ mã ổn định, tải template.
-- `PracticeTest`: chấm điểm, luồng luyện tập, kết quả tự động và test mới `test_speaking_session_result_hides_correct_answer_box` kiểm tra bố cục Speaking.
 - `PracticeScoringTest`: các trường hợp chấm đúng/sai/điền từ.
 - `FullMockTestSeederTest`, `OperationalQuestionBankSeederTest`, `ExtendedQuestionBankTest`: dữ liệu mẫu và ngân hàng câu hỏi.
 
@@ -1055,6 +1054,11 @@ Một số test tiêu biểu:
 
 | Lỗi | Cách khắc phục |
 | --- | --- |
+| Lỗi lưu câu hỏi (FOREIGN KEY constraint failed) tại trang đánh dấu | Thêm kiểm tra và tự động chèn dự phòng bảng `loaicauhoi` và `cauhoi` trước khi ghi vào `danhdau` |
+| Tệp âm thanh `listening-1.wav` không có âm thanh | Bổ sung file âm thanh wav chuẩn, tạo migration cập nhật nội dung câu hỏi và đáp án đồng bộ |
+| Câu hỏi miêu tả tranh thiếu ảnh minh họa (Speak/Write About Photo) | Tạo đồ họa vector SVG chi tiết (lớp học, khách sạn), cập nhật seeder, migration và fallback tự động |
+| Dạng bài Writing Sample không nằm trong kế hoạch phát triển | Loại bỏ mã dạng bài khỏi `PracticeController`, view trang chủ, bài test và tạo migration xóa an toàn |
+| Đảm bảo tuân thủ nghiêm ngặt ràng buộc không dùng JavaScript (No-JS) | Rà soát toàn bộ view `danhdau.blade.php`, `session.blade.php`, chuyển sang 100% Form POST thuần túy |
 | Lịch sử AI Tutor hiển thị raw JSON | Tạo partial render theo loại kết quả |
 | Admin có thể tự hạ quyền dù là admin duy nhất | Thêm kiểm tra số admin hoạt động còn lại |
 | Tài khoản Lâm được tạo trước admin | Đổi thứ tự seeder; hoán đổi id trong CSDL hiện tại |

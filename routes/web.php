@@ -214,3 +214,27 @@ Route::get('/storage/{path}', function ($path) {
 
     return response()->file($filePath);
 })->where('path', '.*')->name('storage.file');
+
+// Helper phát triển / chụp ảnh màn hình báo cáo khi ở môi trường local
+if (app()->environment('local')) {
+    Route::get('/dev-view', function (\Illuminate\Http\Request $request) {
+        $role = $request->query('as', 'user');
+        $to = $request->query('to', '/');
+        $user = \App\Models\Nguoidung::where('vaitro', $role)->first()
+            ?? \App\Models\Nguoidung::first();
+        if ($user) {
+            \Illuminate\Support\Facades\Auth::login($user);
+        }
+        $targetUri = $request->getBaseUrl() . '/' . ltrim($to, '/');
+        $fullUrl = $request->getSchemeAndHttpHost() . $targetUri;
+        $server = $request->server->all();
+        $server['REQUEST_URI'] = $targetUri;
+        $subRequest = \Illuminate\Http\Request::create($fullUrl, 'GET', [], $request->cookies->all(), [], $server);
+        $subRequest->setUserResolver(fn() => $user);
+        if ($request->hasSession()) {
+            $subRequest->setLaravelSession($request->session());
+        }
+        return app()->handle($subRequest);
+    });
+}
+

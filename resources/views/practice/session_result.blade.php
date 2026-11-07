@@ -5,6 +5,16 @@
 @section('content')
 <div style="max-width: 960px; margin: 0 auto; padding-bottom: 50px;">
 
+    {{-- NÚT QUAY LẠI GÓC TRÊN BÊN TRÁI --}}
+    <div style="margin-bottom: 18px;">
+        <a href="{{ route('practice.index') }}"
+           class="btn btn-outline btn-sm"
+           style="display: inline-flex; align-items: center; gap: 8px; font-weight: 700; text-decoration: none;">
+            <span>←</span>
+            <span>Quay lại</span>
+        </a>
+    </div>
+
     {{-- HEADER KẾT QUẢ --}}
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 14px;">
         <div>
@@ -218,7 +228,7 @@
         <a href="{{ route('practice.session', ['loai_id' => $result['type_id'], 'dokho' => $result['dokho']]) }}" class="btn btn-primary" style="padding: 12px 28px; font-weight: 700;">
              Luyện tập lại dạng bài này
         </a>
-        <a href="{{ route('practice.select') }}" class="btn btn-outline" style="padding: 12px 24px; font-weight: 700;">
+        <a href="{{ route('practice.index') }}" class="btn btn-outline" style="padding: 12px 24px; font-weight: 700;">
              Chọn kỹ năng & dạng bài khác
         </a>
         <a href="{{ route('practice.bookmarks') }}" class="btn btn-outline" style="padding: 12px 24px; font-weight: 700;">
