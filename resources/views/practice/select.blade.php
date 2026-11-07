@@ -206,7 +206,7 @@ async function toggleTypeBookmark(loaiId) {
     const label = document.getElementById('label-type-' + loaiId);
 
     try {
-        const response = await fetch('/practice/type/' + loaiId + '/bookmark', {
+        const response = await fetch('{{ url('practice/type') }}/' + loaiId + '/bookmark', {
             method: 'POST',
             headers: {
                 'X-CSRF-TOKEN': '{{ csrf_token() }}',

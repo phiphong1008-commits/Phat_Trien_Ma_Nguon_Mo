@@ -283,7 +283,7 @@ class MockTestDataSeeder extends Seeder
             'Listen to a short conversation and answer the questions.',
             [
                 'dokho' => 6,
-                'audio' => 'audio/questions/listening-1.wav',
+                'audio' => 'audio/questions/listening-2.wav',
             ]
         );
 

@@ -72,25 +72,6 @@
     .bm-row:hover {
         background-color: var(--bento-subtle);
     }
-    .toast-msg {
-        position: fixed;
-        bottom: 24px;
-        right: 24px;
-        background: var(--bento-heading);
-        color: #ffffff;
-        padding: 12px 20px;
-        border-radius: 10px;
-        font-size: 14px;
-        font-weight: 600;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        z-index: 9999;
-        display: none;
-        animation: fadeIn 0.3s ease;
-    }
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
 </style>
 @endpush
 
@@ -120,6 +101,46 @@
                 Danh sách dạng bài
             </a>
         </div>
+    </div>
+
+    {{-- THÔNG BÁO FLASH MESSAGE --}}
+    @if(session('status') || session('success'))
+        <div style="background: #f0fdf4; border: 1.5px solid #86efac; color: #166534; padding: 12px 18px; border-radius: 10px; margin-bottom: 20px; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+            <span>✓</span>
+            <span>{{ session('status') ?? session('success') }}</span>
+        </div>
+    @endif
+    @if(session('error') || session('warning'))
+        <div style="background: #fef2f2; border: 1.5px solid #fca5a5; color: #991b1b; padding: 12px 18px; border-radius: 10px; margin-bottom: 20px; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+            <span>⚠️</span>
+            <span>{{ session('error') ?? session('warning') }}</span>
+        </div>
+    @endif
+
+    {{-- KHUNG LƯU NHANH CÂU HỎI THEO ID --}}
+    <div class="card" style="padding: 16px 20px; border-radius: 12px; margin-bottom: 24px; background: #ffffff; border: 1.5px solid var(--bento-line);">
+        <form method="POST" action="{{ route('practice.bookmarks.store') }}" style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+            @csrf
+            <div style="font-weight: 700; font-size: 14px; color: var(--bento-heading); display: flex; align-items: center; gap: 6px;">
+                <span>⭐</span>
+                <span>Lưu nhanh câu hỏi:</span>
+            </div>
+            <div style="flex: 1; min-width: 220px; max-width: 320px;">
+                <input type="number" 
+                       name="cauhoi_id" 
+                       min="1" 
+                       required 
+                       placeholder="Nhập ID câu hỏi (VD: 1, 2, 3...)" 
+                       class="form-control" 
+                       style="font-size: 14px; padding: 8px 12px; width: 100%;">
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm" style="font-weight: 700; padding: 9px 18px;">
+                + Lưu câu hỏi
+            </button>
+            <span style="font-size: 12px; color: var(--bento-muted);">
+                (Lưu câu hỏi để gom vào danh sách ôn tập cá nhân)
+            </span>
+        </form>
     </div>
 
     {{-- 4 THẺ THỐNG KÊ KỸ NĂNG DET --}}
@@ -356,13 +377,16 @@
                                                 </a>
                                             @endif
 
-                                            <button type="button" 
-                                                    onclick="removeBookmark({{ $bm->cauhoi_id }})" 
-                                                    class="btn btn-outline btn-sm" 
-                                                    style="color: #ef4444; border-color: #fca5a5; font-size: 12px; padding: 6px 10px;" 
-                                                    title="Bỏ lưu câu hỏi này">
-                                                ✕
-                                            </button>
+                                            <!-- Nút Bỏ lưu câu hỏi (Chuẩn No-JS) -->
+                                            <form method="POST" action="{{ route('practice.bookmark.toggle', $bm->cauhoi_id) }}" style="display: inline-block; margin: 0;">
+                                                @csrf
+                                                <button type="submit" 
+                                                        class="btn btn-outline btn-sm" 
+                                                        style="color: #ef4444; border-color: #fca5a5; font-size: 12px; padding: 6px 10px;" 
+                                                        title="Bỏ lưu câu hỏi này">
+                                                    ✕
+                                                </button>
+                                            </form>
                                         </div>
                                     </td>
                                 </tr>
@@ -410,13 +434,16 @@
                                 <span class="badge {{ $stMeta['badge'] }}" style="font-size: 11px; font-weight: 700; text-transform: uppercase;">
                                     {{ $stMeta['name'] }}
                                 </span>
-                                <button type="button" 
-                                        onclick="removeTypeBookmark({{ $st->id }})" 
-                                        class="btn btn-outline btn-sm" 
-                                        style="color: #ef4444; border-color: #fca5a5; font-size: 11px; padding: 3px 8px;"
-                                        title="Bỏ lưu dạng bài này">
-                                    ✕ Bỏ lưu
-                                </button>
+                                <!-- Nút Bỏ lưu dạng bài (Chuẩn No-JS) -->
+                                <form method="POST" action="{{ route('practice.bookmark.type.toggle', $st->id) }}" style="display: inline-block; margin: 0;">
+                                    @csrf
+                                    <button type="submit" 
+                                            class="btn btn-outline btn-sm" 
+                                            style="color: #ef4444; border-color: #fca5a5; font-size: 11px; padding: 3px 8px;"
+                                            title="Bỏ lưu dạng bài này">
+                                        ✕ Bỏ lưu
+                                    </button>
+                                </form>
                             </div>
 
                             <h3 style="font-size: 18px; font-weight: 800; color: var(--bento-heading); margin: 0 0 8px 0;">
@@ -444,99 +471,4 @@
     @endif
 
 </div>
-
-{{-- TOAST NOTIFICATION --}}
-<div id="toast-notification" class="toast-msg"></div>
-
-@push('scripts')
-<script>
-function showToast(message) {
-    const toast = document.getElementById('toast-notification');
-    if (toast) {
-        toast.innerText = message;
-        toast.style.display = 'block';
-        setTimeout(() => {
-            toast.style.display = 'none';
-        }, 2800);
-    }
-}
-
-async function removeBookmark(qid) {
-    if (!confirm('Bạn có chắc muốn bỏ lưu câu hỏi #' + qid + ' khỏi danh sách?')) {
-        return;
-    }
-
-    try {
-        const response = await fetch('/practice/question/' + qid + '/bookmark', {
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                'Accept': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        });
-
-        const data = await response.json();
-        if (data.success) {
-            const row = document.getElementById('bm-row-' + qid);
-            if (row) {
-                row.style.opacity = '0';
-                row.style.transition = 'opacity 0.3s ease';
-                setTimeout(() => {
-                    row.remove();
-                }, 300);
-            }
-            showToast('✓ ' + data.message);
-        } else {
-            alert(data.message || 'Có lỗi xảy ra.');
-        }
-    } catch (e) {
-        console.error(e);
-        // Fallback gửi form
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = '/practice/question/' + qid + '/bookmark';
-        const csrfInput = document.createElement('input');
-        csrfInput.type = 'hidden';
-        csrfInput.name = '_token';
-        csrfInput.value = '{{ csrf_token() }}';
-        form.appendChild(csrfInput);
-        document.body.appendChild(form);
-        form.submit();
-    }
-}
-
-async function removeTypeBookmark(loaiId) {
-    if (!confirm('Bạn có chắc muốn bỏ lưu dạng bài này?')) {
-        return;
-    }
-
-    try {
-        const response = await fetch('/practice/type/' + loaiId + '/bookmark', {
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                'Accept': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        });
-
-        const data = await response.json();
-        if (data.success) {
-            const card = document.getElementById('saved-type-card-' + loaiId);
-            if (card) {
-                card.style.opacity = '0';
-                card.style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                    card.remove();
-                }, 300);
-            }
-            showToast('✓ ' + data.message);
-        }
-    } catch (e) {
-        console.error(e);
-    }
-}
-</script>
-@endpush
 @endsection

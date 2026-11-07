@@ -1102,7 +1102,7 @@
         const star = document.getElementById('palette-star-' + qIndex);
 
         try {
-            const response = await fetch('/practice/question/' + qid + '/bookmark', {
+            const response = await fetch('{{ url('practice/question') }}/' + qid + '/bookmark', {
                 method: 'POST',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}',
