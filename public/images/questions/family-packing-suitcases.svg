@@ -1,0 +1,175 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500" role="img" aria-labelledby="title desc">
+    <title id="title">A family packing suitcases in a hotel room</title>
+    <desc id="desc">A family consisting of parents and their child packing luggage and travel bags inside a sunlit hotel room.</desc>
+
+    <defs>
+        <linearGradient id="wallGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#fdfbf7"/>
+            <stop offset="100%" stop-color="#ebdcd0"/>
+        </linearGradient>
+        <linearGradient id="floorGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#caa178"/>
+            <stop offset="100%" stop-color="#a87f56"/>
+        </linearGradient>
+        <linearGradient id="windowSky" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#bfe3f7"/>
+            <stop offset="100%" stop-color="#e2f1fc"/>
+        </linearGradient>
+        <linearGradient id="bedCover" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#ffffff"/>
+            <stop offset="100%" stop-color="#e8e5e0"/>
+        </linearGradient>
+    </defs>
+
+    <!-- Tường phòng khách sạn -->
+    <rect width="800" height="340" fill="url(#wallGrad)"/>
+
+    <!-- Chỉ phào tường trang trí hiện đại -->
+    <rect x="0" y="336" width="800" height="8" fill="#d6c3b2"/>
+    <rect x="40" y="40" width="180" height="260" fill="none" stroke="#e0d0c1" stroke-width="3" rx="4"/>
+    <rect x="52" y="52" width="156" height="236" fill="none" stroke="#e0d0c1" stroke-width="1.5" rx="3"/>
+
+    <!-- Sàn gỗ phòng khách sạn -->
+    <rect y="344" width="800" height="156" fill="url(#floorGrad)"/>
+    <line x1="0" y1="390" x2="800" y2="390" stroke="#966e47" stroke-width="1.5"/>
+    <line x1="0" y1="440" x2="800" y2="440" stroke="#966e47" stroke-width="1.5"/>
+
+    <!-- Cửa sổ khách sạn nhìn ra ngoài -->
+    <rect x="250" y="30" width="220" height="240" rx="8" fill="url(#windowSky)"/>
+    <!-- Tòa nhà xa xa ngoài cửa sổ -->
+    <rect x="270" y="110" width="45" height="160" fill="#9bc2dc"/>
+    <rect x="330" y="80" width="55" height="190" fill="#88b1cc"/>
+    <rect x="400" y="130" width="50" height="140" fill="#a4c9e0"/>
+    <!-- Khung cửa sổ -->
+    <rect x="250" y="30" width="220" height="240" fill="none" stroke="#ffffff" stroke-width="8" rx="8"/>
+    <line x1="360" y1="30" x2="360" y2="270" stroke="#ffffff" stroke-width="4"/>
+    <line x1="250" y1="150" x2="470" y2="150" stroke="#ffffff" stroke-width="4"/>
+
+    <!-- Rèm cửa sổ khách sạn sang trọng -->
+    <path d="M235 25 C245 100 240 220 225 280 L260 280 C250 200 255 100 250 25 Z" fill="#b97a56" opacity="0.85"/>
+    <path d="M485 25 C475 100 480 220 495 280 L460 280 C470 200 465 100 470 25 Z" fill="#b97a56" opacity="0.85"/>
+
+    <!-- Giường khách sạn lớn -->
+    <!-- Đầu giường bọc đệm da cao cấp -->
+    <rect x="520" y="100" width="260" height="250" rx="14" fill="#5a3d31" stroke="#3d271e" stroke-width="4"/>
+    <line x1="520" y1="180" x2="780" y2="180" stroke="#482e24" stroke-width="3"/>
+    <line x1="650" y1="100" x2="650" y2="260" stroke="#482e24" stroke-width="3"/>
+
+    <!-- Nệm và drap giường trắng phao -->
+    <path d="M490 250 Q630 230 790 250 L790 380 Q630 400 490 380 Z" fill="url(#bedCover)"/>
+    <path d="M490 340 L790 340 L790 380 Q630 400 490 380 Z" fill="#d9d3cb"/>
+
+    <!-- Gối ngủ khách sạn -->
+    <rect x="670" y="210" width="95" height="48" rx="12" fill="#ffffff" stroke="#e0dbd3" stroke-width="2"/>
+    <rect x="560" y="210" width="95" height="48" rx="12" fill="#ffffff" stroke="#e0dbd3" stroke-width="2"/>
+
+    <!-- Tấm trải trang trí giường màu đỏ rượu -->
+    <rect x="510" y="320" width="270" height="40" fill="#992b2b" rx="4"/>
+
+    <!-- Bàn đầu giường và đèn ngủ -->
+    <rect x="460" y="220" width="55" height="130" rx="6" fill="#6d4837"/>
+    <rect x="464" y="235" width="47" height="30" rx="3" fill="#583726"/>
+    <circle cx="487" cy="250" r="3.5" fill="#e5c07b"/>
+    <!-- Cây đèn ngủ -->
+    <rect x="483" y="160" width="8" height="60" fill="#d4af37"/>
+    <polygon points="470,160 504,160 496,120 478,120" fill="#fff6d6" stroke="#eedb99" stroke-width="2"/>
+
+    <!-- VALI 1 TRÊN GIƯỜNG (Vali mở to màu xanh đậm) -->
+    <rect x="530" y="260" width="150" height="95" rx="10" fill="#1e3a5f" stroke="#0f1f33" stroke-width="3"/>
+    <!-- Nắp vali mở dựng lên -->
+    <path d="M530 260 L545 175 L675 175 L680 260 Z" fill="#2a4d7a" stroke="#0f1f33" stroke-width="2.5"/>
+    <line x1="555" y1="190" x2="665" y2="190" stroke="#3b69a3" stroke-width="3"/>
+    <line x1="560" y1="210" x2="660" y2="210" stroke="#3b69a3" stroke-width="3"/>
+    <!-- Quần áo trong vali trên giường -->
+    <rect x="542" y="272" width="60" height="28" rx="4" fill="#e0533c"/>
+    <rect x="610" y="270" width="58" height="32" rx="4" fill="#f4c430"/>
+    <rect x="550" y="305" width="115" height="36" rx="4" fill="#509e75"/>
+
+    <!-- VALI 2 DƯỚI SÀN (Màu xám tím hiện đại) -->
+    <rect x="300" y="375" width="140" height="85" rx="10" fill="#534666" stroke="#332a40" stroke-width="3"/>
+    <rect x="310" y="388" width="120" height="60" rx="6" fill="#695982"/>
+    <!-- Quần áo xếp trong vali dưới sàn -->
+    <rect x="320" y="398" width="50" height="25" rx="3" fill="#3b82f6"/>
+    <rect x="375" y="396" width="48" height="28" rx="3" fill="#ec4899"/>
+    <!-- Tay kéo & bánh xe vali -->
+    <rect x="290" y="405" width="10" height="26" rx="3" fill="#221d2b"/>
+    <circle cx="315" cy="463" r="6" fill="#18141f"/>
+    <circle cx="425" cy="463" r="6" fill="#18141f"/>
+
+    <!-- BALO DU LỊCH TRÊN SÀN CẠNH VALI -->
+    <rect x="240" y="395" width="50" height="65" rx="14" fill="#d97706"/>
+    <rect x="248" y="420" width="34" height="30" rx="6" fill="#b45309"/>
+    <path d="M255 395 C255 380 275 380 275 395" fill="none" stroke="#78350f" stroke-width="4"/>
+
+    <!-- CON GÁI NHỎ ĐANG PHỤ GIÚP BỎ GẤU BÔNG VÀO BALO -->
+    <g transform="translate(160, 310)">
+        <!-- Cơ thể bé -->
+        <rect x="20" y="65" width="36" height="55" rx="10" fill="#f472b6"/>
+        <!-- Chân bé đang ngồi -->
+        <path d="M22 118 L10 145 M52 118 L64 145" stroke="#3b82f6" stroke-width="12" stroke-linecap="round"/>
+        <!-- Đầu và tóc bé gái -->
+        <circle cx="38" cy="40" r="22" fill="#fcd34d"/> <!-- Tóc vàng buộc hai bên -->
+        <circle cx="16" cy="35" r="9" fill="#fcd34d"/>
+        <circle cx="60" cy="35" r="9" fill="#fcd34d"/>
+        <circle cx="38" cy="42" r="18" fill="#fed7aa"/> <!-- Khuôn mặt -->
+        <circle cx="32" cy="40" r="2.5" fill="#332a40"/>
+        <circle cx="44" cy="40" r="2.5" fill="#332a40"/>
+        <path d="M34 49 Q38 54 42 49" fill="none" stroke="#ea580c" stroke-width="2" stroke-linecap="round"/>
+        <!-- Tay cầm chú gấu bông nhỏ -->
+        <path d="M22 80 L6 100" stroke="#fed7aa" stroke-width="7" stroke-linecap="round"/>
+        <!-- Chú gấu bông travel teddy -->
+        <circle cx="6" cy="100" r="10" fill="#a16207"/>
+        <circle cx="1" cy="94" r="3.5" fill="#78350f"/>
+        <circle cx="11" cy="94" r="3.5" fill="#78350f"/>
+    </g>
+
+    <!-- NGƯỜI BỐ (Đang xếp áo sơ mi vào vali trên giường) -->
+    <g transform="translate(460, 150)">
+        <!-- Quần người bố -->
+        <rect x="35" y="170" width="22" height="120" rx="6" fill="#374151"/>
+        <rect x="62" y="170" width="22" height="120" rx="6" fill="#1f2937"/>
+        <!-- Giày bố -->
+        <rect x="30" y="282" width="28" height="14" rx="5" fill="#111827"/>
+        <rect x="62" y="282" width="28" height="14" rx="5" fill="#111827"/>
+        <!-- Thân áo polo xanh navy -->
+        <path d="M25 80 L95 80 L90 175 L30 175 Z" fill="#1e40af" rx="6"/>
+        <!-- Cổ áo -->
+        <polygon points="45,80 60,105 75,80" fill="#ffffff"/>
+        <!-- Cánh tay đang với tới vali gập quần áo -->
+        <path d="M85 95 Q115 110 130 135" fill="none" stroke="#1e40af" stroke-width="18" stroke-linecap="round"/>
+        <path d="M125 130 L145 145" fill="none" stroke="#fed7aa" stroke-width="14" stroke-linecap="round"/>
+        <!-- Áo đang gấp trên tay bố -->
+        <path d="M140 142 L165 142 L160 162 L135 162 Z" fill="#38bdf8"/>
+        <!-- Đầu và mặt bố -->
+        <circle cx="60" cy="42" r="24" fill="#fed7aa"/>
+        <path d="M36 38 C36 12 84 12 84 38 C80 24 40 24 36 38 Z" fill="#451a03"/> <!-- Tóc nâu ngắn -->
+        <circle cx="68" cy="40" r="2.8" fill="#1f2937"/>
+        <path d="M63 50 Q70 56 75 50" fill="none" stroke="#c2410c" stroke-width="2" stroke-linecap="round"/>
+    </g>
+
+    <!-- NGƯỜI MẸ (Đang đứng vui vẻ cầm túi đồ & gấp đồ du lịch) -->
+    <g transform="translate(300, 130)">
+        <!-- Váy/Quần người mẹ màu xanh ô liu -->
+        <rect x="38" y="180" width="18" height="130" rx="5" fill="#4b5563"/>
+        <rect x="60" y="180" width="18" height="130" rx="5" fill="#374151"/>
+        <rect x="34" y="302" width="24" height="12" rx="4" fill="#9ca3af"/>
+        <rect x="60" y="302" width="24" height="12" rx="4" fill="#9ca3af"/>
+        <!-- Áo vàng cam ấm áp -->
+        <path d="M28 85 L88 85 L84 185 L32 185 Z" fill="#ea580c"/>
+        <circle cx="58" cy="85" r="14" fill="#fed7aa"/>
+        <!-- Tay mẹ cầm chiếc áo len chuẩn bị đóng gói -->
+        <path d="M30 95 Q10 130 25 150" fill="none" stroke="#ea580c" stroke-width="15" stroke-linecap="round"/>
+        <path d="M25 145 L35 160" fill="none" stroke="#fed7aa" stroke-width="12" stroke-linecap="round"/>
+        <rect x="25" y="150" width="45" height="30" rx="5" fill="#a855f7"/>
+        <!-- Đầu và tóc dài của mẹ -->
+        <circle cx="58" cy="48" r="23" fill="#fed7aa"/>
+        <path d="M32 48 C32 10 84 10 84 48 C88 80 84 90 84 90 C70 65 75 55 32 48 Z" fill="#172554"/> <!-- Tóc dài sẫm màu -->
+        <circle cx="52" cy="46" r="2.8" fill="#1f2937"/>
+        <path d="M48 56 Q55 62 60 56" fill="none" stroke="#b91c1c" stroke-width="2" stroke-linecap="round"/>
+    </g>
+
+    <!-- Chi tiết phụ: Cặp kính râm và mũ cói trên bàn nhỏ -->
+    <ellipse cx="490" cy="223" rx="14" ry="5" fill="#d97706"/>
+    <ellipse cx="490" cy="221" rx="8" ry="4" fill="#b45309"/>
+
+</svg>

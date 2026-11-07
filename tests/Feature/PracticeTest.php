@@ -575,4 +575,70 @@ class PracticeTest extends TestCase
         $this->assertStringStartsWith('RIFF', $header);
         $this->assertStringContainsString('WAVE', $header);
     }
+
+    /**
+     * Yêu cầu: Đã bỏ Writing Sample khỏi danh sách dạng bài luyện tập
+     */
+    public function test_writing_sample_is_removed_from_practice_types(): void
+    {
+        $response = $this->actingAs($this->user)->get(route('practice.index'));
+        $response->assertOk();
+        $response->assertDontSee('Writing Sample');
+    }
+
+    /**
+     * Yêu cầu: Câu hỏi miêu tả tranh có ảnh đính kèm hợp lệ và file ảnh tồn tại trên ổ đĩa
+     */
+    public function test_photo_questions_have_valid_images_and_files_exist(): void
+    {
+        $familyImg = public_path('images/questions/photo-family-hotel.svg');
+        $teacherImg = public_path('images/questions/photo-classroom-teacher.svg');
+
+        $this->assertFileExists($familyImg, 'Ảnh phòng khách sạn cho câu Speak about the photo phải tồn tại');
+        $this->assertFileExists($teacherImg, 'Ảnh lớp học cho câu Write about the photo phải tồn tại');
+
+        $familyContent = file_get_contents($familyImg);
+        $teacherContent = file_get_contents($teacherImg);
+
+        $this->assertStringContainsString('<svg', $familyContent);
+        $this->assertStringContainsString('suitcases', $familyContent);
+
+        $this->assertStringContainsString('<svg', $teacherContent);
+        $this->assertStringContainsString('whiteboard', $teacherContent);
+    }
+
+    /**
+     * Yêu cầu: Phiên luyện tập loai_id=2 và dokho=4 hiển thị hình ảnh giáo viên và bảng trắng
+     */
+    public function test_practice_session_loai_2_dokho_4_displays_classroom_image(): void
+    {
+        $type = Loaicauhoi::create([
+            'id' => 2,
+            'ma' => 'write_about_photo',
+            'ten' => 'Write About the Photo',
+            'kynang' => 'writing',
+            'cachcham' => 'ai',
+            'thoigian' => 60,
+            'is_active' => true,
+        ]);
+
+        $q = Cauhoi::create([
+            'loai_id' => $type->id,
+            'noidung' => 'Write one or more sentences describing the photo: a teacher is writing on a whiteboard while students take notes.',
+            'dokho' => 4,
+            'diem' => 10,
+            'trangthai' => 'published',
+            'anh' => 'images/questions/photo-classroom-teacher.svg',
+            'is_active' => true,
+        ]);
+
+        $response = $this->actingAs($this->user)->get(route('practice.session', [
+            'loai_id' => 2,
+            'dokho' => 4,
+        ]));
+
+        $response->assertOk();
+        $response->assertSee('photo-classroom-teacher.svg');
+        $response->assertSee('<img src=', false);
+    }
 }

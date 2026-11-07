@@ -115,6 +115,7 @@ class AdminCatalogSeeder extends Seeder
     {
         $cauhoi = $this->taoCauHoi($loai, $danhmuc, [
             'noidung' => 'Write one or more sentences describing the photo: a teacher is writing on a whiteboard while students take notes.',
+            'anh' => 'images/questions/photo-classroom-teacher.svg',
             'dokho' => 4,
             'thoigian' => 60,
         ]);
@@ -242,6 +243,7 @@ class AdminCatalogSeeder extends Seeder
     {
         $cauhoi = $this->taoCauHoi($loai, $danhmuc, [
             'noidung' => 'Speak about the photo for at least 30 seconds: a family is packing suitcases in a hotel room.',
+            'anh' => 'images/questions/photo-family-hotel.svg',
             'dokho' => 6,
             'thoigian' => 90,
         ]);
@@ -279,7 +281,7 @@ class AdminCatalogSeeder extends Seeder
      */
     private function taoCauHoi(Loaicauhoi $loai, Danhmuc $danhmuc, array $thuocTinh): Cauhoi
     {
-        return Cauhoi::firstOrCreate(
+        $cauhoi = Cauhoi::firstOrCreate(
             ['noidung' => $thuocTinh['noidung']],
             $thuocTinh + [
                 'loai_id' => $loai->id,
@@ -287,5 +289,14 @@ class AdminCatalogSeeder extends Seeder
                 'trangthai' => 'published',
             ],
         );
+
+        if (!empty($thuocTinh['anh']) && empty($cauhoi->anh)) {
+            $cauhoi->update(['anh' => $thuocTinh['anh']]);
+        }
+        if (!empty($thuocTinh['audio']) && empty($cauhoi->audio)) {
+            $cauhoi->update(['audio' => $thuocTinh['audio']]);
+        }
+
+        return $cauhoi;
     }
 }

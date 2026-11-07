@@ -371,7 +371,7 @@
                 </div>
                 <div class="det-highlight-box">
                     <strong>✍️ Writing (Viết)</strong>
-                    <span>Write About the Photo, Interactive Writing, Writing Sample (chấm bằng AI).</span>
+                    <span>Write About the Photo, Read Then Write (chấm bằng AI).</span>
                 </div>
                 <div class="det-highlight-box">
                     <strong>🎙️ Speaking (Nói)</strong>
