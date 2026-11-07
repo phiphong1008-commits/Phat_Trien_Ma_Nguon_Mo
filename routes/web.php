@@ -225,7 +225,11 @@ if (app()->environment('local')) {
         if ($user) {
             \Illuminate\Support\Facades\Auth::login($user);
         }
-        $subRequest = \Illuminate\Http\Request::create($to, 'GET');
+        $targetUri = $request->getBaseUrl() . '/' . ltrim($to, '/');
+        $fullUrl = $request->getSchemeAndHttpHost() . $targetUri;
+        $server = $request->server->all();
+        $server['REQUEST_URI'] = $targetUri;
+        $subRequest = \Illuminate\Http\Request::create($fullUrl, 'GET', [], $request->cookies->all(), [], $server);
         $subRequest->setUserResolver(fn() => $user);
         if ($request->hasSession()) {
             $subRequest->setLaravelSession($request->session());
