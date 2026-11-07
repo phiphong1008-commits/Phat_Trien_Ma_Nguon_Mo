@@ -1,0 +1,195 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500" role="img" aria-labelledby="title desc">
+    <title id="title">A teacher writing on a whiteboard while students take notes</title>
+    <desc id="desc">A male teacher is writing an English lesson on a large whiteboard in a bright classroom while students at their desks take notes in their notebooks.</desc>
+
+    <defs>
+        <linearGradient id="classWall" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#f8fafc"/>
+            <stop offset="100%" stop-color="#e2e8f0"/>
+        </linearGradient>
+        <linearGradient id="classFloor" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#cbd5e1"/>
+            <stop offset="100%" stop-color="#94a3b8"/>
+        </linearGradient>
+        <linearGradient id="boardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#ffffff"/>
+            <stop offset="100%" stop-color="#f1f5f9"/>
+        </linearGradient>
+        <linearGradient id="deskWood" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#e2ba86"/>
+            <stop offset="100%" stop-color="#c89d67"/>
+        </linearGradient>
+    </defs>
+
+    <!-- Tường lớp học -->
+    <rect width="800" height="340" fill="url(#classWall)"/>
+
+    <!-- Sàn lớp học -->
+    <rect y="340" width="800" height="160" fill="url(#classFloor)"/>
+    <line x1="0" y1="340" x2="800" y2="340" stroke="#64748b" stroke-width="3"/>
+    <line x1="0" y1="410" x2="800" y2="410" stroke="#94a3b8" stroke-width="1.5"/>
+
+    <!-- Đồng hồ treo tường lớp học -->
+    <circle cx="90" cy="70" r="30" fill="#ffffff" stroke="#475569" stroke-width="4"/>
+    <circle cx="90" cy="70" r="2.5" fill="#0f172a"/>
+    <line x1="90" y1="70" x2="90" y2="52" stroke="#0f172a" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="90" y1="70" x2="104" y2="70" stroke="#0f172a" stroke-width="2" stroke-linecap="round"/>
+
+    <!-- BẢNG TRẮNG WHITEBOARD LỚN TRÊN TƯỜNG -->
+    <!-- Viền nhôm của bảng -->
+    <rect x="180" y="40" width="460" height="250" rx="8" fill="#64748b"/>
+    <!-- Mặt bảng trắng bóng -->
+    <rect x="188" y="48" width="444" height="234" rx="4" fill="url(#boardGrad)"/>
+
+    <!-- Khay đựng bút & đồ lau bảng phía dưới bảng -->
+    <rect x="240" y="286" width="340" height="10" rx="3" fill="#94a3b8"/>
+    <!-- Bút lông viết bảng (đỏ, xanh, đen) và đồ lau -->
+    <rect x="270" y="284" width="30" height="4" rx="2" fill="#2563eb"/>
+    <rect x="310" y="284" width="30" height="4" rx="2" fill="#dc2626"/>
+    <rect x="350" y="284" width="30" height="4" rx="2" fill="#1e293b"/>
+    <rect x="420" y="281" width="45" height="7" rx="2" fill="#334155"/>
+
+    <!-- NỘI DUNG BÀI HỌC ĐANG VIẾT TRÊN BẢNG TRẮNG -->
+    <text x="210" y="85" font-family="'Segoe UI', Arial, sans-serif" font-size="18" font-weight="700" fill="#1e3a8a">
+        LESSON 4: SENTENCE STRUCTURE
+    </text>
+    <line x1="210" y1="92" x2="480" y2="92" stroke="#3b82f6" stroke-width="2"/>
+
+    <text x="210" y="125" font-family="'Segoe UI', Arial, sans-serif" font-size="14" font-weight="600" fill="#0f172a">
+        1. Subject + Verb + Object (S - V - O)
+    </text>
+    <text x="230" y="150" font-family="'Segoe UI', Arial, sans-serif" font-size="13" fill="#2563eb">
+        Example: The teacher explains the lesson.
+    </text>
+
+    <text x="210" y="185" font-family="'Segoe UI', Arial, sans-serif" font-size="14" font-weight="600" fill="#0f172a">
+        2. Descriptive Adjectives:
+    </text>
+    <!-- Sơ đồ mũi tên tư duy trên bảng -->
+    <rect x="230" y="200" width="85" height="32" rx="4" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="272" y="221" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="700" fill="#1d4ed8">Quality</text>
+
+    <path d="M315 216 L345 216 M340 212 L346 216 L340 220" stroke="#dc2626" stroke-width="2" fill="none"/>
+
+    <rect x="350" y="200" width="90" height="32" rx="4" fill="#fef2f2" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="395" y="221" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="700" fill="#b91c1c">Noun Phrase</text>
+
+    <!-- CỬA SỔ LỚP HỌC BÊN PHẢI -->
+    <rect x="670" y="50" width="105" height="220" rx="6" fill="#e0f2fe"/>
+    <rect x="670" y="50" width="105" height="220" fill="none" stroke="#ffffff" stroke-width="6" rx="6"/>
+    <line x1="670" y1="140" x2="775" y2="140" stroke="#ffffff" stroke-width="4"/>
+    <!-- Cây xanh ngoài cửa sổ -->
+    <circle cx="720" cy="180" r="45" fill="#86efac" opacity="0.7"/>
+
+    <!-- NGƯỜI THẦY GIÁO ĐANG VIẾT LÊN BẢNG TRẮNG -->
+    <g transform="translate(470, 75)">
+        <!-- Quần tây công sở màu xanh đậm -->
+        <rect x="52" y="220" width="24" height="125" rx="6" fill="#1e293b"/>
+        <rect x="80" y="220" width="24" height="125" rx="6" fill="#0f172a"/>
+        <!-- Giày da công sở -->
+        <rect x="48" y="338" width="32" height="14" rx="5" fill="#020617"/>
+        <rect x="80" y="338" width="32" height="14" rx="5" fill="#020617"/>
+
+        <!-- Thân áo sơ mi xanh nhạt -->
+        <path d="M40 95 L110 95 L106 225 L44 225 Z" fill="#38bdf8"/>
+        <!-- Thắt lưng da -->
+        <rect x="44" y="220" width="62" height="8" fill="#78350f"/>
+        <rect x="70" y="220" width="10" height="8" fill="#fbbf24"/>
+
+        <!-- Cánh tay phải giơ lên đang cầm bút viết bảng -->
+        <!-- Bắp tay vươn lên cao hướng về bảng -->
+        <path d="M42 110 Q25 90 20 60" fill="none" stroke="#38bdf8" stroke-width="20" stroke-linecap="round"/>
+        <!-- Cẳng tay hướng vào bảng -->
+        <path d="M20 65 L8 38" fill="none" stroke="#fed7aa" stroke-width="15" stroke-linecap="round"/>
+        <!-- Bút lông màu xanh trên tay thầy giáo đang chạm bảng -->
+        <rect x="-2" y="30" width="24" height="6" rx="2" transform="rotate(-30 10 32)" fill="#1d4ed8"/>
+
+        <!-- Cánh tay trái buông tự nhiên hoặc cầm giáo án/sách -->
+        <path d="M105 110 Q120 150 115 180" fill="none" stroke="#38bdf8" stroke-width="18" stroke-linecap="round"/>
+        <circle cx="115" cy="188" r="9" fill="#fed7aa"/>
+        <!-- Cuốn sách/giáo trình nhỏ trên tay trái -->
+        <rect x="108" y="175" width="22" height="35" rx="3" transform="rotate(15 119 192)" fill="#dc2626"/>
+
+        <!-- Đầu và khuôn mặt thầy giáo (góc nghiêng 3/4) -->
+        <circle cx="75" cy="55" r="26" fill="#fed7aa"/>
+        <path d="M48 52 C48 18 100 18 100 52 C95 32 55 32 48 52 Z" fill="#332a40"/> <!-- Tóc ngắn lịch sự -->
+        <!-- Mắt kính tri thức -->
+        <rect x="52" y="50" width="15" height="12" rx="3" fill="none" stroke="#1e293b" stroke-width="2"/>
+        <circle cx="58" cy="56" r="2.5" fill="#0f172a"/>
+    </g>
+
+    <!-- BÀN HỌC SINH 1 (Bên trái) & HỌC SINH NỮ ĐANG GHI CHÉP -->
+    <g transform="translate(60, 260)">
+        <!-- Ghế ngồi -->
+        <rect x="85" y="110" width="55" height="80" rx="8" fill="#475569"/>
+
+        <!-- Học sinh nữ đang ngồi cặm cụi ghi bài -->
+        <!-- Thân áo len màu vàng cam -->
+        <rect x="85" y="60" width="55" height="75" rx="12" fill="#f59e0b"/>
+        <!-- Đầu và tóc đuôi ngựa -->
+        <circle cx="112" cy="25" r="22" fill="#fed7aa"/>
+        <path d="M90 25 C90 -5 134 -5 134 25 C138 35 145 45 145 55 C135 48 135 30 134 25 Z" fill="#78350f"/>
+        <circle cx="106" cy="24" r="2.5" fill="#1e293b"/>
+
+        <!-- Cánh tay đặt lên bàn viết bài -->
+        <path d="M90 80 Q95 105 130 105" fill="none" stroke="#f59e0b" stroke-width="16" stroke-linecap="round"/>
+        <path d="M130 105 L155 105" fill="none" stroke="#fed7aa" stroke-width="12" stroke-linecap="round"/>
+        <!-- Cây bút bi đang viết -->
+        <line x1="152" y1="102" x2="162" y2="108" stroke="#2563eb" stroke-width="3" stroke-linecap="round"/>
+
+        <!-- MẶT BÀN HỌC GỖ -->
+        <rect x="50" y="95" width="200" height="18" rx="6" fill="url(#deskWood)" stroke="#92400e" stroke-width="1.5"/>
+        <!-- Chân bàn sắt -->
+        <rect x="65" y="113" width="10" height="120" rx="3" fill="#334155"/>
+        <rect x="230" y="113" width="10" height="120" rx="3" fill="#334155"/>
+
+        <!-- VỞ GHI CHÉP MỞ RA TRÊN BÀN -->
+        <rect x="135" y="90" width="55" height="26" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+        <line x1="162" y1="90" x2="162" y2="116" stroke="#94a3b8" stroke-width="1"/>
+        <!-- Các dòng chữ ghi chép trên vở -->
+        <line x1="140" y1="96" x2="158" y2="96" stroke="#64748b" stroke-width="1.5"/>
+        <line x1="140" y1="102" x2="158" y2="102" stroke="#64748b" stroke-width="1.5"/>
+        <line x1="166" y1="96" x2="185" y2="96" stroke="#64748b" stroke-width="1.5"/>
+        <line x1="166" y1="102" x2="182" y2="102" stroke="#64748b" stroke-width="1.5"/>
+
+        <!-- Hộp bút và thước kẻ trên bàn -->
+        <rect x="80" y="92" width="38" height="12" rx="4" fill="#ec4899"/>
+    </g>
+
+    <!-- BÀN HỌC SINH 2 (Bên phải) & HỌC SINH NAM ĐANG GHI CHÉP -->
+    <g transform="translate(320, 275)">
+        <!-- Ghế ngồi -->
+        <rect x="80" y="100" width="55" height="85" rx="8" fill="#475569"/>
+
+        <!-- Học sinh nam mặc áo xanh lá -->
+        <rect x="80" y="55" width="55" height="75" rx="12" fill="#10b981"/>
+        <!-- Đầu và tóc đen ngắn -->
+        <circle cx="107" cy="22" r="21" fill="#fed7aa"/>
+        <path d="M86 20 C86 -8 128 -8 128 20 C125 6 90 6 86 20 Z" fill="#0f172a"/>
+        <circle cx="102" cy="22" r="2.5" fill="#0f172a"/>
+
+        <!-- Cánh tay đang cầm bút ghi bài -->
+        <path d="M85 75 Q95 98 125 98" fill="none" stroke="#10b981" stroke-width="16" stroke-linecap="round"/>
+        <path d="M125 98 L145 98" fill="none" stroke="#fed7aa" stroke-width="12" stroke-linecap="round"/>
+        <!-- Cây bút trên tay -->
+        <line x1="142" y1="95" x2="152" y2="102" stroke="#dc2626" stroke-width="3" stroke-linecap="round"/>
+
+        <!-- MẶT BÀN HỌC GỖ -->
+        <rect x="40" y="90" width="200" height="18" rx="6" fill="url(#deskWood)" stroke="#92400e" stroke-width="1.5"/>
+        <!-- Chân bàn sắt -->
+        <rect x="55" y="108" width="10" height="110" rx="3" fill="#334155"/>
+        <rect x="220" y="108" width="10" height="110" rx="3" fill="#334155"/>
+
+        <!-- VỞ GHI BÀI CỦA NAM SINH -->
+        <rect x="125" y="85" width="55" height="26" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+        <line x1="152" y1="85" x2="152" y2="111" stroke="#94a3b8" stroke-width="1"/>
+        <line x1="130" y1="91" x2="148" y2="91" stroke="#64748b" stroke-width="1.5"/>
+        <line x1="130" y1="97" x2="148" y2="97" stroke="#64748b" stroke-width="1.5"/>
+        <line x1="156" y1="91" x2="175" y2="91" stroke="#64748b" stroke-width="1.5"/>
+
+        <!-- Bình nước cá nhân trên bàn -->
+        <rect x="75" y="75" width="16" height="26" rx="4" fill="#0284c7"/>
+        <rect x="79" y="71" width="8" height="5" rx="2" fill="#e0f2fe"/>
+    </g>
+
+</svg>

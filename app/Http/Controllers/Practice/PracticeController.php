@@ -79,7 +79,6 @@ class PracticeController extends Controller
             // Writing
             (object)['id' => 7, 'ma' => 'write_about_photo', 'ten' => 'Write About the Photo', 'kynang' => 'writing', 'cachcham' => 'ai', 'thoigian' => 60, 'mota' => 'Viết ít nhất 1 câu mô tả bức ảnh được hiển thị.'],
             (object)['id' => 8, 'ma' => 'read_then_write', 'ten' => 'Read Then Write', 'kynang' => 'writing', 'cachcham' => 'ai', 'thoigian' => 300, 'mota' => 'Đọc chủ đề và viết bài luận tối thiểu 50 từ trong 5 phút.'],
-            (object)['id' => 12, 'ma' => 'writing_sample', 'ten' => 'Writing Sample', 'kynang' => 'writing', 'cachcham' => 'ai', 'thoigian' => 300, 'mota' => 'Đọc chủ đề và viết bài luận học thuật thể hiện quan điểm cá nhân trong 5 phút.'],
 
             // Speaking
             (object)['id' => 9, 'ma' => 'read_aloud', 'ten' => 'Read Aloud', 'kynang' => 'speaking', 'cachcham' => 'ai', 'thoigian' => 20, 'mota' => 'Đọc to câu văn hiển thị trên màn hình và ghi âm.'],
@@ -138,7 +137,7 @@ class PracticeController extends Controller
             ],
             (object)[
                 'id' => 4,
-                'loai_id' => 12,
+                'loai_id' => 8,
                 'noidung' => 'Do you agree or disagree that artificial intelligence will replace human teachers in the future? Give reasons and examples to support your opinion.',
                 'giaithich' => 'Bài viết cần có mở bài nêu quan điểm rõ ràng, thân bài đưa ra tối thiểu 2 luận điểm kèm dẫn chứng, và kết bài tóm lược lại ý kiến.',
                 'dokho' => 6,
@@ -164,20 +163,6 @@ class PracticeController extends Controller
 
         if ($types->isEmpty()) {
             $types = $this->getDefaultQuestionTypes();
-        } else {
-            if ($types->where('kynang', 'writing')->count() < 3 && !$types->contains('ma', 'writing_sample')) {
-                $types = $types->concat([
-                    (object)[
-                        'id' => 12,
-                        'ma' => 'writing_sample',
-                        'ten' => 'Writing Sample',
-                        'kynang' => 'writing',
-                        'cachcham' => 'ai',
-                        'thoigian' => 300,
-                        'mota' => 'Đọc chủ đề và viết bài luận học thuật thể hiện quan điểm cá nhân trong 5 phút.',
-                    ]
-                ]);
-            }
         }
 
         $groupedTypes = [
@@ -391,6 +376,17 @@ class PracticeController extends Controller
             $questions = $this->getDefaultQuestions()->where('loai_id', $type->id);
             if ($questions->isEmpty()) {
                 $questions = $this->getDefaultQuestions();
+            }
+        }
+
+        // Bổ sung ảnh mẫu cho các câu hỏi hình ảnh nếu chưa có trong CSDL
+        foreach ($questions as $q) {
+            if (empty($q->anh)) {
+                if (stripos($q->noidung ?? '', 'packing suitcases') !== false) {
+                    $q->anh = 'images/questions/photo-family-hotel.svg';
+                } elseif (stripos($q->noidung ?? '', 'writing on a whiteboard') !== false) {
+                    $q->anh = 'images/questions/photo-classroom-teacher.svg';
+                }
             }
         }
 
@@ -1489,6 +1485,14 @@ class PracticeController extends Controller
 
         if (!$question) {
             $question = $this->getDefaultQuestions()->firstWhere('id', (int)$id) ?: $this->getDefaultQuestions()->first();
+        }
+
+        if ($question && empty($question->anh)) {
+            if (stripos($question->noidung ?? '', 'packing suitcases') !== false) {
+                $question->anh = 'images/questions/photo-family-hotel.svg';
+            } elseif (stripos($question->noidung ?? '', 'writing on a whiteboard') !== false) {
+                $question->anh = 'images/questions/photo-classroom-teacher.svg';
+            }
         }
 
         $type = null;

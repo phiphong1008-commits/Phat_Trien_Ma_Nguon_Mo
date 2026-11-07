@@ -66,7 +66,7 @@ class AIServiceGradingTest extends TestCase
         $result = $this->aiService->gradeWriting(
             'Write about your favorite book.',
             'My favorite book is 1984 by George Orwell.',
-            'Writing Sample',
+            'Read Then Write',
             $this->user->id
         );
 
