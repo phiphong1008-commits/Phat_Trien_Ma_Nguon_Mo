@@ -1,5 +1,14 @@
 # AmberDET - Nền tảng luyện thi Duolingo English Test (DET Practice)
+# Phat_Trien_Ma_Nguon_Mo
+Thành viên
+ - Đoàn Phi Phong
+ - Trần Thế Hào
+ - Võ Nhật Lâm
 
+: Danh sách tài khoản kiểm thử mặc định trên hệ thống
+Vai trò	Email	Mật khẩu	Ghi chú
+Quản trị viên	admin@example.com	password	Được tạo đầu tiên (id 1)
+Học viên	lam@example.com	password	Tài khoản minh họa
 <div align="center">
 
 <img width="1919" height="242" alt="AmberDET Banner" src="https://github.com/user-attachments/assets/af741814-c4be-4854-8c2f-8ace744e3082" />
@@ -357,3 +366,5 @@ Dự án được phát hành mã nguồn mở theo các điều khoản của [
   <br/>
   <sub>Khoa Công nghệ Thông tin — Trường Đại học Nha Trang (NTU)</sub>
 </div>
+
+
