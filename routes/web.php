@@ -98,6 +98,7 @@ Route::middleware('auth')->prefix('practice')->name('practice.')->group(function
 
     // LT07: Quản lý câu hỏi yếu đã đánh dấu (Bookmarks) & Dạng bài quan tâm
     Route::get('/bookmarks', [BookmarkController::class, 'index'])->name('bookmarks');
+    Route::post('/bookmarks/save', [BookmarkController::class, 'storeQuick'])->name('bookmarks.store');
     Route::post('/question/{cauhoi_id}/bookmark', [BookmarkController::class, 'toggle'])->name('bookmark.toggle');
     Route::post('/type/{loai_id}/bookmark', [BookmarkController::class, 'toggleType'])->name('bookmark.type.toggle');
     Route::get('/bookmarks/practice', [BookmarkController::class, 'practiceSaved'])->name('bookmarks.practice');

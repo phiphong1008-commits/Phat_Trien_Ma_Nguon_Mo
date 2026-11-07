@@ -289,6 +289,22 @@ class BookmarkController extends Controller
     }
 
     /**
+     * Lưu nhanh câu hỏi theo ID từ trang danh sách câu hỏi đã lưu
+     */
+    public function storeQuick(Request $request)
+    {
+        $validated = $request->validate([
+            'cauhoi_id' => 'required|integer|min:1',
+        ], [
+            'cauhoi_id.required' => 'Vui lòng nhập ID câu hỏi cần lưu.',
+            'cauhoi_id.integer' => 'ID câu hỏi phải là một số nguyên dương.',
+            'cauhoi_id.min' => 'ID câu hỏi phải lớn hơn 0.',
+        ]);
+
+        return $this->toggle($request, (int)$validated['cauhoi_id']);
+    }
+
+    /**
      * Thêm hoặc bỏ đánh dấu (toggle bookmark) một câu hỏi
      * Hỗ trợ lưu kèm Kỹ năng & Dạng bài và trả về JSON tức thì không cần reload
      */
@@ -311,29 +327,42 @@ class BookmarkController extends Controller
             $cauhoi = DB::table('cauhoi')->where('id', $cauhoiId)->first();
         }
 
-        if (!$cauhoi) {
-            $cauhoi = $this->getDefaultQuestions()->firstWhere('id', $cauhoiId);
-            // Đảm bảo không vi phạm khóa ngoại cauhoi_id nếu dùng câu hỏi mặc định
-            if ($cauhoi && Schema::hasTable('cauhoi')) {
-                try {
-                    $validLoaiId = 1;
-                    if (Schema::hasTable('loaicauhoi')) {
-                        $firstLoai = DB::table('loaicauhoi')->value('id');
-                        if ($firstLoai) $validLoaiId = $firstLoai;
+        if (!$cauhoi && Schema::hasTable('cauhoi')) {
+            $defaultQ = $this->getDefaultQuestions()->firstWhere('id', $cauhoiId);
+            // Đảm bảo không vi phạm khóa ngoại cauhoi_id và loai_id trên CSDL
+            try {
+                $validLoaiId = 1;
+                if (Schema::hasTable('loaicauhoi')) {
+                    $firstLoai = DB::table('loaicauhoi')->value('id');
+                    if (!$firstLoai) {
+                        $firstLoai = DB::table('loaicauhoi')->insertGetId([
+                            'ma' => 'read_and_select',
+                            'ten' => 'Read and Select',
+                            'kynang' => 'reading',
+                            'is_active' => 1,
+                        ]);
                     }
-                    DB::table('cauhoi')->updateOrInsert(
-                        ['id' => $cauhoiId],
-                        [
-                            'loai_id' => $cauhoi->loai_id ?? $validLoaiId,
-                            'noidung' => $cauhoi->noidung ?? ('Câu hỏi luyện tập #' . $cauhoiId),
-                            'dokho' => $cauhoi->dokho ?? 5,
-                            'diem' => $cauhoi->diem ?? 1.0,
-                            'trangthai' => 'published',
-                        ]
-                    );
-                } catch (\Throwable $e) {
-                    // Tiếp tục xử lý
+                    $validLoaiId = $firstLoai;
                 }
+
+                $targetLoaiId = $defaultQ->loai_id ?? $validLoaiId;
+                if (Schema::hasTable('loaicauhoi') && !DB::table('loaicauhoi')->where('id', $targetLoaiId)->exists()) {
+                    $targetLoaiId = $validLoaiId;
+                }
+
+                DB::table('cauhoi')->updateOrInsert(
+                    ['id' => $cauhoiId],
+                    [
+                        'loai_id' => $targetLoaiId,
+                        'noidung' => $defaultQ->noidung ?? ('Câu hỏi luyện tập #' . $cauhoiId),
+                        'dokho' => $defaultQ->dokho ?? 5,
+                        'diem' => $defaultQ->diem ?? 1.0,
+                        'trangthai' => 'published',
+                    ]
+                );
+                $cauhoi = DB::table('cauhoi')->where('id', $cauhoiId)->first();
+            } catch (\Throwable $e) {
+                // Tiếp tục xử lý
             }
         }
 

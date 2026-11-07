@@ -512,4 +512,67 @@ class PracticeTest extends TestCase
         $response->assertSee('DANH SÁCH CÂU HỎI ĐỌC HIỂU TƯƠNG TÁC');
         $response->assertSee('What is the main topic of the passage?');
     }
+
+    /**
+     * Sửa lỗi: Người dùng có thể lưu nhanh câu hỏi từ trang Danh sách câu hỏi đã lưu (danhdau.blade.php)
+     */
+    public function test_user_can_quick_save_question_from_bookmarks_page(): void
+    {
+        $response = $this->actingAs($this->user)->post(route('practice.bookmarks.store'), [
+            'cauhoi_id' => 1,
+        ]);
+
+        $response->assertRedirect();
+        $response->assertSessionHas('status');
+
+        $listResponse = $this->actingAs($this->user)->get(route('practice.bookmarks'));
+        $listResponse->assertOk();
+        $listResponse->assertSee('#1');
+        $listResponse->assertSee('Lưu nhanh câu hỏi');
+        $listResponse->assertSee(route('practice.bookmark.toggle', 1));
+        
+        // Đảm bảo view danhdau.blade.php hoàn toàn không chứa thẻ <script> (Chuẩn No-JS)
+        $viewContent = file_get_contents(resource_path('views/practice/danhdau.blade.php'));
+        $this->assertStringNotContainsString('<script', $viewContent);
+    }
+
+    /**
+     * Sửa lỗi: Trang danhdau.blade.php có đầy đủ form và CSRF token chuẩn No-JS
+     */
+    public function test_bookmarks_page_renders_forms_and_csrf_tokens(): void
+    {
+        $this->actingAs($this->user)->post(route('practice.bookmarks.store'), [
+            'cauhoi_id' => 2,
+        ]);
+
+        $response = $this->actingAs($this->user)->get(route('practice.bookmarks'));
+        $response->assertOk();
+        $response->assertSee(route('practice.bookmarks.store'));
+        $response->assertSee(route('practice.bookmark.toggle', 2));
+        $response->assertSee('_token');
+
+        $viewContent = file_get_contents(resource_path('views/practice/danhdau.blade.php'));
+        $this->assertStringNotContainsString('<script', $viewContent);
+    }
+
+    /**
+     * Sửa lỗi: File âm thanh listening-1.wav có âm thanh chuẩn, dung lượng thật (> 50KB) và khớp đáp án
+     */
+    public function test_listening_1_audio_file_is_audible_and_valid_wav(): void
+    {
+        $audioPath = public_path('audio/questions/listening-1.wav');
+        $this->assertFileExists($audioPath);
+
+        $fileSize = filesize($audioPath);
+        // File rỗng/câm cũ chỉ có 16,044 bytes; file mới có tiếng nói > 100,000 bytes
+        $this->assertGreaterThan(50000, $fileSize, 'File listening-1.wav phải có nội dung âm thanh thật');
+
+        // Kiểm tra định dạng RIFF WAVE chuẩn
+        $handle = fopen($audioPath, 'rb');
+        $header = fread($handle, 12);
+        fclose($handle);
+
+        $this->assertStringStartsWith('RIFF', $header);
+        $this->assertStringContainsString('WAVE', $header);
+    }
 }

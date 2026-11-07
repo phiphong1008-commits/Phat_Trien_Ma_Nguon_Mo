@@ -265,14 +265,13 @@ class AdminCatalogSeeder extends Seeder
             'thoigian' => 60,
         ]);
 
-        if ($cauhoi->wasRecentlyCreated) {
-            Dapan::create([
-                'cauhoi_id' => $cauhoi->id,
+        Dapan::updateOrCreate(
+            ['cauhoi_id' => $cauhoi->id, 'ladung' => true],
+            [
                 'noidung' => 'The library closes at eight on Friday.',
-                'ladung' => true,
                 'thutu' => 1,
-            ]);
-        }
+            ]
+        );
     }
 
     /**
